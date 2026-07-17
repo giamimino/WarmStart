@@ -1,0 +1,26 @@
+// Define database connection via the `DATABASE_URL` env var
+datasource db {
+  provider = "postgresql"
+}
+
+// Define custom output path for generated Prisma Client
+generator client {
+  provider = "prisma-client-js"
+  output   = "app/generated/prisma-client"
+}
+
+enum ProgressLogStatus {
+  COMPLETED
+  INPROGRESS
+  SKIPPED
+}
+
+model ProgressLog {
+  id        String            @id @default(uuid())
+  date      DateTime          @default(now())
+  topic     String
+  resource  String?
+  note      String?
+  status    ProgressLogStatus @default(INPROGRESS)
+  updatedAt DateTime          @updatedAt
+}
